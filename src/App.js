@@ -9,11 +9,11 @@ function App() {
     axios.get("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=2020-01-22")
       .then(res => {
         setNasa(res.data)
-        console.log(res.data)
+        // console.log(res.data)
       })
 
       .catch(error => {
-        console.log("the data was requested", error)
+        // console.log("the data was requested", error)
       })
 
   }, [])

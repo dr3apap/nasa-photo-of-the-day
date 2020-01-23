@@ -2,7 +2,7 @@ import React from "react";
 
 
 function DisplayImg(props) {
-    console.log(props)
+    // console.log(props)
 
     return (
         <div>
