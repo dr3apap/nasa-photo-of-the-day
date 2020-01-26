@@ -1,52 +1,77 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"
-import "./App.css";
-import DateInput from "./components/DateInput"
+import axios from "axios";
+// import "./App.css";
+import moment from "moment";
+import styled from "styled-components";
+import DateInput from "./components/DateInput";
 import DisplayImg from "./components/DisplayImg"
 
+
+const ApodImg = styled.div`
+display:flex;
+object-fit:scale;
+padding-top 1rem;
+margin-bottom:1rem
+width:80%
+`;
+
 function App() {
-  let [nasa, setNasa] = useState([]);
-  let [date, setDate] = useState("");
+  const [nasa, setNasa] = useState([]);
+  const [date, setDate] = useState(new Date());
 
-  const changeDate = e => {
-    e.preventDefault()
-    let inputFromDate = e.target[0].value
-    setDate(date + inputFromDate)
+  const changeDate = (date) => {
 
-    console.log(e.target)
+    setDate(date)
+
+    // formatDate(dateFromInput)
+
+    // console.log(dateFromInput)
   }
 
-  const DateInput = props => (
-    <form onSubmit={props.changeDate}>
-      Enter a Date (YYYY-MM-DD):
-    <input />
-      <input type="submit" />
-    </form>
-
-  );
+  // const formatDate = moment => {
+  //   let year = moment.year();
+  //   let month = moment.month() + 1;
+  //   let day = moment.day();
+  //   return `${year}-${month}-${day}`
+  // };
 
 
 
 
 
   useEffect(() => {
-    axios.get("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date={query}")
-      .then(res => {
-        setNasa(res.data)
-        // console.log(res.data)
-      })
+    const fetchData = () => {
 
-      .catch(error => {
-        console.log("the data was requested", error)
-      })
+      axios.get(`https://api.nasa.gov/planetary/apod?date=${date}&api_key=DEMO_KEY`)
+        .then(res => {
+          // setNasa(res.data)
 
-  }, [])
+          console.log(res)
+
+
+
+        })
+
+        .catch(error => {
+
+          console.log("the data was requested", error)
+
+        })
+
+
+    }
+    fetchData()
+
+  }, [date])
 
   return (
-    <div className="App">
-      <DateInput changeDate={changeDate} />
+    <ApodImg >
+      <DateInput
+        changeDate={changeDate}
+        date={date}
+      />
       <DisplayImg data={nasa} />
-    </div>
+    </ApodImg>
   );
 }
 
